@@ -1,10 +1,11 @@
-# AndroidLearnNote
-Android学习笔记
+#  LearnNote
+ 
+ `学习笔记`
 
 ---
 
-##Android基础知识
-###四大组件
+## Android基础知识
+### 四大组件
 * [Android初学乍道](https://github.com/csmijo/AndroidLearnNote/blob/master/Android/基础知识/四大组件/Activity初学乍道.md)
 * [Activity状态恢复的方法](https://github.com/csmijo/AndroidLearnNote/blob/master/Android/基础知识/四大组件/Activity状态恢复的方法.md)
 * [BroadcastReceiver初学乍道](https://github.com/csmijo/AndroidLearnNote/blob/master/Android/基础知识/四大组件/BroadcastReceiver初学乍道.md)
@@ -15,4 +16,4 @@ Android学习笔记
 * [Service初学乍道](https://github.com/csmijo/AndroidLearnNote/blob/master/Android/基础知识/四大组件/Service初学乍道.md)
 * [Service和Thread的区别](https://github.com/csmijo/AndroidLearnNote/blob/master/Android/基础知识/四大组件/Service和Thread的区别.md)
 
-###网络
+### 网络
