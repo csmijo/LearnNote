@@ -24,6 +24,13 @@
     * **root:** 为该布局的外部再嵌套一层父布局，如果不需要的话，写null即可
     * **attToRoot：** 是否为加载的布局文件的最外层套一层root布局
 
+3. inflate() 方法详解
+
+    1. 如果root为null，attachToRoot将失去作用，设置任何值都没有意义。
+    2. 如果root不为null，attachToRoot设为true，则会给加载的布局文件的指定一个父布局，即root。
+    3. 如果root不为null，attachToRoot设为false，则会将布局文件最外层的所有layout属性进行设置，当该view被添加到父view当中时，这些layout属性会自动生效。
+    4. 在不设置attachToRoot参数的情况下，如果root不为null，attachToRoot参数默认为true。
+
 ##2. 纯Java代码加载布局
 
 ```java
@@ -199,3 +206,8 @@ public class MainActivity extends Activity {
 } 
 ```
 
+--
+
+[参考文献]
+
+* [ Android LayoutInflater原理分析，带你一步步深入了解View(一)](http://blog.csdn.net/guolin_blog/article/details/12921889)

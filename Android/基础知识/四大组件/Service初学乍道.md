@@ -52,6 +52,8 @@
 
 ##3. bindService启动service具体操作
 
+###3.1 binService使用方法
+
 * **ServiceConnection对象**:监听访问者与Service间的连接情况,如果成功连接,回调`nServiceConnected()`,如果异常终止或者其他原因终止导致Service与访问者断开 连接则回调`onServiceDisconnected()`方法,调用`unBindService()`不会调用该方法!
 * `onServiceConnected()`方法中有一个IBinder对象,该对象即可实现与被绑定Service 之间的通信!我们再开发Service类时,默认需要实现`IBinder onBind()`方法,该方法返回的IBinder对象会传到ServiceConnection对象中作为`onServiceConnected()`方法的参数,我们就可以在这里通过这个IBinder与Service进行通信!
 
@@ -61,6 +63,45 @@
 >Step 2:通过`onBind()`方法返回自己的IBinder对象
 
 >Step 3:在绑定该Service的类中定义一个ServiceConnection对象,重写两个方法, `onServiceConnected()`和`onDisconnected()`，然后直接读取IBinder传递过来的参数即可!
+
+###3.2 bindService()
+
+1. 一般来讲，有三种方式可以获得 IBinder 对象：
+    * 继承 Binder 对象
+    * 使用 Messenger
+    * 使用 AIDL
+
+2. 继承 Binder 对象
+    
+    使用方法如上所述
+    
+3. 使用 Messenger 
+
+* 对于跨进程通信，Messenger 在很多情况下比使用 AIDL 简单的多
+* Messenger 的核心其实就是利用 Message 以及 Handler 来进行进程间的通信
+* Messenger 进行跨进程通信的一般步骤：
+    * 服务端实现一个Handler，由其接受来自客户端的每个调用的回调
+    * 使用实现的Handler创建Messenger对象
+    * 通过Messenger得到一个IBinder对象，并将其通过onBind()返回给客户端
+    * 客户端使用 IBinder 将 Messenger（引用服务的 Handler）实例化，然后使用后者将 Message 对象发送给服务
+    * 服务端在其 Handler 中（具体地讲，是在 handleMessage() 方法中）接收每个 Message
+
+4. 使用 AIDL 
+
+* 见笔记 AIDL
+* 使用 AIDL 的基本步骤如下：
+    * 服务端创建一个AIDL文件，将暴露给客户端的接口在里面声明
+    * 在service中实现这些接口
+    * 客户端绑定服务端，并将onServiceConnected()得到的IBinder转为AIDL生成的IInterface实例
+    * 通过得到的实例调用其暴露的方法
+     
+5. Messenger 与 AIDL 比较
+
+* 从实现的难度上，Messenger 要简单的多——至少不用写 AIDL 文件，虽然 Messenger 的底层实现还是 AIDL
+* 使用 Messenger 还有一个显著的好处是他会把所有的请求排入队列，因此几乎可以不用担心多线程可能会带来的问题
+* 如果项目中存在大量并发请求处理，使用 Messenger 就不合适了，应该使用 AIDL。 因为 Messenger 的特性让他只能串行的解决请求
+* 使用 Messenger 的时候只能通过 Message 来传递信息实现交互，但是在有些时候也许我们需要直接跨进程调用服务端的方法，这时候只能使用 AIDL
+
 
 ##4. IntentService的使用
 
@@ -214,9 +255,21 @@ public class AlarmReceiver extends BroadcastReceiver {
 |**Service.START_REDELIVER_INTENT**|如果系统在Service的onStarnCommand方法回调过之后销毁了该Service，系统会主动重新创建该Service的对象，会重新调用该Service的OnStartCommand方法，并且把上销毁前的最后一个Intent 对象传递进去，主要用在需要恢复现场的地方，比如下载文件|系统对待该Service的态度是，等内存不那么紧张的时候重建该Service，并且会把销毁前最后一个Intent对象重新传递进去|
 
 
+##8. service 的生命周期
+
+当服务与所有客户端之间的绑定全部取消时，Android 系统便会销毁这个服务（除非还使用 onStartCommand() 启动了该服务）。因此，如果服务是纯粹的绑定服务，原则上我们是无需对其生命周期进行管理的—Android 系统会根据它是否绑定到任何客户端帮我们管理。但实际上，我们应该始终在完成与服务的交互时或 Activity 暂停时取消绑定，以便服务能够在未被占用时关闭。
+
+如果你只需要在 Activity 可见时与服务交互，则可以在 onStart() 期间绑定，在 onStop() 期间取消绑定。如果你希望 Activity 在后台停止运行状态下仍可接收响应，则可在 onCreate() 期间绑定，在 onDestroy() 期间取消绑定。但是注意，这意味着你的 Activity 在其整个运行过程中（甚至包括后台运行期间）都需要使用服务，因此如果服务位于其他进程内，那么当你提高该进程的权重时，系统终止该进程的可能性会增加。通常情况下，**切勿在 Activity 的 onResume() 和 onPause() 期间绑定和取消绑定**，因为每一次生命周期转换都会发生这些回调，我们应该使发生在这些转换期间的处理保持在最低水平。此外，如果我们的应用内的多个 Activity 绑定到同一服务，并且其中两个 Activity 之间发生了转换，则如果当前 Activity 在下一次绑定（恢复期间）之前取消绑定（暂停期间），系统可能会销毁服务并重建服务。
+
+此外，如果我们的服务已启动并接受绑定，则当系统调用 onUnbind() 方法时，如果我们想在客户端下一次绑定到服务时接收 onRebind() 调用（而不是接收 onBind() 调用），则可选择返回 true。onRebind() 返回空值，但客户端仍在其 onServiceConnected() 回调中接收 IBinder。下图说明了这种生命周期的逻辑： 
+
+![service生命周期](http://ac-cnyv47la.clouddn.com/e64329342b5d3318.png)
+
+
 --
 参考文献：
 
 * [Service初涉](http://www.runoob.com/w3cnote/android-tutorial-service-1.html "")
 * [Service进阶](http://www.runoob.com/w3cnote/android-tutorial-service-2.html "")
 * [Android 组件 Service 研究](http://android.jobbole.com/84450/)
+* [Android中的Service：Binder，Messenger，AIDL(2)](http://blog.csdn.net/luoyanglizi/article/details/51594016)

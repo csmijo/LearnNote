@@ -239,6 +239,16 @@ JFIFC
 1. 第二行增加了一个文件名变量
 2. 增加了一行 Content-Type：文件的mime类型 + "\r\n"
 
+
+##6. 自定义Custom Request
+
+官方教程：
+[Implementing a Custom Request](https://developer.android.com/training/volley/request-custom.html?hl=zh-cn)
+
+For cases where you do need to implement a custom request, this is all you need to do:
+* **`Extend the Request<T> class`**, where <T> represents the type of parsed response the request expects. So if your parsed response is a string, for example, create your custom request by extending Request<String>. See the Volley toolbox classes StringRequest and ImageRequest for examples of extending Request<T>. 
+* Implement the abstract methods **`parseNetworkResponse()`and `deliverResponse()`**, described in more detail below.
+
 --
 **[参考]**
 * [Android 网络编程（3）：Volley用法全解析](http://mp.weixin.qq.com/s?__biz=MzA3MDMyMjkzNg==&mid=2652261891&idx=1&sn=ff70183bc983577da4a584cde5a7f4ed&scene=1&srcid=0822q8tHD8Coxq1xFGQRxskX#wechat_redirect)

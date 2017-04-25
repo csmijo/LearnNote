@@ -43,3 +43,7 @@ public void addFragment(View view){
     ft.commit();
 }
 ```
+
+##4. Fragment 使用的一些注意事项
+
+* [Android Fragment 的使用，一些你不可不知的注意事项](http://yifeng.studio/2016/12/15/android-fragment-attentions/)

@@ -79,6 +79,8 @@
 * `View.draw(Canvas canvas)`: 由于 ViewGroup 并没有复写此方法，因此，所有的视图最终都是调用 `View` 的 `draw` 方法进行绘制的。**在自定义的视图中，也不应该复写该方法，而是复写 onDraw(Canvas) 方法进行绘制**，如果自定义的视图确实要复写该方法，那么请先调用 super.draw(canvas)完成系统的绘制，然后再进行自定义的绘制。
 * `View.onDraw()`: View 的onDraw（Canvas）默认是空实现，**自定义绘制过程需要复写的方法**，绘制自身的内容。
 * `dispatchDraw()`: 发起对子视图的绘制。View 中默认是空实现，**ViewGroup 复写了`dispatchDraw()`来对其子视图进行绘制**。该方法我们**不用去管**，自定义的 `ViewGroup` **不应该**对dispatchDraw()进行复写。
+* `drawChild(canvas, this, drawingTime)`
+直接调用了 `View` 的 `child.draw(canvas, this,drawingTime)` 方法，文档中也说明了，除了被`ViewGroup.drawChild()` 方法外，你不应该在其它任何地方去复写或调用该方法，它属于 `ViewGroup`。而`View.draw(Canvas)`方法是我们自定义控件中可以复写的方法，具体可以参考上述对`view.draw(Canvas)`的说明。从参数中可以看到，`child.draw(canvas, this, drawingTime)` 肯定是处理了和父视图相关的逻辑，但 `View` 的最终绘制，还是 `View.draw(Canvas)`方法。
 * `invalidate()`: 请求重绘View树，即draw过程，假如视图大小没有发生变化就不会调用`layout()`过程，并且只绘制哪些调用了`invalidate()`方法的view
 * `requestLayout()`: 当布局变化的时候，比如方向，尺寸变化时会调用该方法，在自定义的视图中，**如果某些情况下希望重新测量尺寸大小，应该手动去调用该方法，它会触发`measure()`和`layout()`过程，但不会进行 `draw`**。
 
