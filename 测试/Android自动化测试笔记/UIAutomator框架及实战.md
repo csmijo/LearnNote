@@ -436,3 +436,122 @@ http://blog.csdn.net/wanglha/article/details/42969439
 ### 7.6 向前向后滚动
 
 ![UiScrollable向前滚向后滚API.png](http://on9czqsf5.bkt.clouddn.com/UiScrollable向前滚向后滚API.png?2017-04-24-20-22-01)
+
+
+### 7.7 滚动到某个对象
+
+
+![UiScrollable滚动到某个对象.png](http://on9czqsf5.bkt.clouddn.com/UiScrollable滚动到某个对象.png?2017-04-25-15-44-20)
+
+### 7.8 设置滚动方向
+
+1. `UiScrollable setAsHorizontalList()`    水平滚动（左右滚动）
+2. `UiScrollable setAsVerticalList()`     纵向滚动（上下滚动）
+
+## 8. UIWatcher API
+
+### 8.1 UiWatcher 类介绍与中断监听检查条件
+
+`UiWatcher`  用于处理脚本执行过程中遇到非预想的步骤
+
+1. `public boolean checkForCondition()`
+    
+    **在测试框架无法找到一个匹配时**，使用`uiselector` 测试框架会自动调用此方法才处理程序方法。在超时未找到匹配项时，框架调用 `checkForCondition()` 方法查找设备上的所有已注册的监听检查条件。可以使用此方法来处理中断问题保证测试用例正常运行。
+
+### 8.2 监听器操作
+
+1. `void registerWatcher(String name, UiWatcher watcher)`
+2. `void removeWatcher(String name)`
+3. `void resetWatcherTriggers()`
+4. `void runWatchers()`
+
+
+**注意：**
+
+1. 使用循环体时，比如 for 循环体，一旦监听器被触发，跳出循环体之后是不会再次进入到循环体之内的
+2. 使用方法体时，一旦监听器被触发，跳出方法体之后就不能再进入了，所以在使用自己的方法时如果被打断是无法被监听器恢复的
+2. `UiDevice` 的操作是不会触发监听器的
+
+## 9. Configurator API
+
+`Configurator` 用于设置脚本动作的默认延时
+
+![ConfiguratorAPI.png](http://on9czqsf5.bkt.clouddn.com/ConfiguratorAPI.png?2017-04-25-18-18-43)
+
+## 10. UiAutomator 报告查看
+
+### 10.1 报告简介及查看
+
+1. 错误类型
+    * 断言错误：`AssertionFailedError`
+    * 脚本错误：`UiObjectNotFoundException、java异常等等`
+
+2. 报告状态
+    * 运行状态
+    * 结果状态
+    * 运行信息
+
+3. 运行状态
+    * 1  : 运行前
+    * -1 : 运行完成
+
+4. 结果状态
+    * 0  : ok
+    * -1 : Errors   脚本错误
+    * -2 : Failures  断言错误
+
+5. 运行信息
+    * 运行前信息   状态码为： 1
+    * 运行中信息
+    * 运行后信息   状态码为： -1
+6. 运行后打印的结果信息中：
+`Test results for WatcherResultPrinter= .` 
+    * `.`  表示没有任何异常
+    * `.E` 表示脚本错误
+    * `.F` 表示断言错误
+
+### 10.2 输出信息到报告
+
+1. 输出信息使用的 API 说明
+    * Bundle
+    * getAutomationSupport().sendStatus(int, Bundle)
+
+### 10.3 传入参数控制脚本
+
+1. 通过 `-e` 传入数据到用例中，如：拨打一个电话
+2. 通过 `-e` 传入整体控制参数控制脚本，如：清理应用数据
+
+* `Bundle bundle = new Bundle `    新建一个 Bundle 对象
+* `Bundle bundle = getParams()`    获取命令行传入的参数
+* `String value = (String)bundle.get(key)`  获取命令行传入的具体参数值
+* `-e key value`  通过这样的格式从命令行进行参数的输入
+
+## 11. UiAutomator 正则表达式的使用
+
+### 11.1 正则表达式
+
+![正则表达式常用元字符.png](http://on9czqsf5.bkt.clouddn.com/正则表达式常用元字符.png?2017-04-26-17-39-59)
+
+![表示次数的元字符.png](http://on9czqsf5.bkt.clouddn.com/表示次数的元字符.png?2017-04-26-17-40-06)
+
+|描述|JAVA API|
+|:--|:--|
+|匹配字符串|matcher(regex)|
+|替换字符串|replace(regex,input)|
+|萃取字符串|Matcher.group()|
+|拆分字符串|split(regex)|
+
+
+```
+# 萃取
+Stirng s = "testa1234bafasda";
+Pattern pattern = Pattern.compile("\\d+");
+Matcher matcher = pattern.matcher(s);
+while(matcher.find()){
+    System.out.println(m.group());
+}
+```
+
+
+
+
