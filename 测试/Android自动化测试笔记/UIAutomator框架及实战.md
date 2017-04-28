@@ -552,6 +552,92 @@ while(matcher.find()){
 }
 ```
 
+## 12. 断言函数
 
+![断言函数分类.PNG](http://on9czqsf5.bkt.clouddn.com/断言函数分类.PNG?2017-04-26-19-59-52)
 
+## 13. UiAutomator 图像处理
 
+### 13.1 在图片上嵌入文字
+
+```
+public Bitmap drawTextBitmap(Bitmap bitmap,String text){
+	    int x = bitmap.getWidth();
+	    int y = bitmap.getHeight();
+	    
+	    // 创建一个比原来图片更大的位图
+	    Bitmap newBitmap = Bitmap.createBitmap(x, y+80, Bitmap.Config.ARGB_8888);
+	    Canvas canvas = new Canvas(newBitmap);
+	    Paint paint = new Paint();
+	    
+	    // 在原图位置（0，0）叠加一张图片
+	    canvas.drawBitmap(bitmap, 0, 0,paint);
+	    // 画笔颜色
+	    paint.setColor(Color.parseColor("#FF0000"));
+	    paint.setTextSize(30);
+	    canvas.drawText(text, 20, y+55, paint);
+	    canvas.save(Canvas.ALL_SAVE_FLAG);
+	    canvas.restore();
+	    return newBitmap;    
+	}
+```
+
+### 13.2 图片对比
+
+```
+public boolean imageSameAs(String targetImagePath,String comPath,double percent){
+		Bitmap m1 = BitmapFactory.decodeFile(targetImagePath);
+		Bitmap m2 = BitmapFactory.decodeFile(comPath);
+		
+		int width = m2.getWidth();
+		int height = m2.getHeight();
+		int numDiffPixels = 0;
+		for(int x=0;x<width;x++){
+			for(int y=0;y<height;y++){
+				if(m2.getPixel(x, y) != m1.getPixel(x, y)){
+					numDiffPixels++;
+				}
+			}
+		}
+		
+		double totalPixels = height*width;
+		double diffPercent = numDiffPixels/totalPixels;
+		return percent <= 1.0 - diffPercent;
+	}
+```
+
+## 14. UiAutomator 中辅助 APK 的使用
+
+### 14.1 在测试中弹出提示框
+
+1. 使用 `am broadcast -a com.csmijo.test.action -e key value` 发送一个广播
+2. 新建一个 Apk ，它包含一个 `BroadcastReceiver` 可以响应 `com.csmijo.test.action` 这样的 `action`，然后在 `onReceive()` 方法中弹出 一个对话框，用于显示 `value`的信息 
+
+### 14.2 在测试中输入中文
+
+由于 `UiAutomator` 默认只能输入 `ASCII` 字符，所有为了输入其他类型的文字，需要使用 `UiAutomator Unicode` 输入助手来输入，即 **Jutf-7输入法**
+
+使用步骤：
+
+1. 安装 `Jutf-7` 输入法
+2. 系统设置 --> 语言和输入法 --> 设置 UTF-7 为默认输入法
+3. UTF-7 UiAutomator 辅助工具类加入脚本
+4. `UiObject.setText(Utf7lmeHelper.e("各种语言"));`
+
+## 15. Jenkins 
+
+### 15.1 Windows 安装说明
+
+1. 进入 Jenkins 官网(http://jenkins-ci.org/) 下载最新版本
+2. 点击安装
+3. 安装完成后，打开浏览器，输入 `http://localhost:8080` ，进入 Jenkins 管理界面
+
+### 15.2 Jenkins 基础
+
+主要以一个一个任务(Job) 的执行来管理。
+
+一个任务(Job) 包括以下几个模块：
+* 源码管理   ---  SVN/CVS/GIT 等代码管理器
+* 构建触发器  --- 什么条件下触发构建，如代码变化，指定时间等
+* 构建  --- 执行构建、测试自己想要的步骤
+* 构建后操作  --- 构建后的操作，如发送测试报告等
