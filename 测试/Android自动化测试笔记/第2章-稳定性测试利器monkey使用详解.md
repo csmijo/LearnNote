@@ -191,16 +191,39 @@
     
 ### 3.2 monkey 脚本编写
 
+以360浏览器为例，写一个简单的例子，具体的操作步骤：
+
+1. 启动 360 浏览器
+2. 点击搜索框
+3. 输入keyword： `test`
+4. 点击搜索
+
 ```
-type= raw events
-count= 10
-speed= 1.0
+# 启动测试
+type = user
+count = 10
+speed = 1.0
 start data >>
-captureDispatchPointer(5109520,5109520,0,230.75429,458.1814,0.20784314,0.06666667,0,0.0,0.0,65539,0)
-captureDispatchKey(5113146,5113146,0,20,0,0,0,0)
-captureDispatchFlip(true)
-...
+# 启动360浏览器
+LaunchActivity(com.qihoo.browser,com.qihoo.browser.BrowserActivity)
+UserWait(5000)
+
+# 点击搜索框
+Tap(223,250,1000)
+UserWait(5000)
+# 输入字母 test
+DispatchString(test)
+UserWait(2000)
+# 点击搜索
+Tap(672,100,1000)
+UserWait(2000)
 ```
+
+1. 假如保存该脚本到 `monkeyTest.txt` 文件中
+2. 将这个脚本 `push` 到手机上，执行如下命令： `adb push .\monkeyTest.txt /sdcard/`
+3. 执行 monkey 脚本，使用命令为： `adb shell monkey -f /sdcard/monkeyTest.txt -v -v 1`
+
+
 
 ## 4. monkey 日志分析
 

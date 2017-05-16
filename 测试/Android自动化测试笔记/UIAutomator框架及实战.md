@@ -10,7 +10,7 @@
 
 ### 1.1 适用范围
 
-目前 `UIAutomator` **仅支持API Level 17 及以上**，而且控件解析**仅支持 Android 原生控件，对于 Web 则无法解析。**
+目前 `UIAutomator` **仅支持API Level 17 及以上**，而且控件解析**仅支持 Android 原生控件，对于 WebView 则无法解析。**
 
 `UIAutomator` 可以在**无源码** 的情况下和竞品进行对比测试，还可以进行 **单元测试、性能测试、压力测试**。`UIAutomator` 可以进行 ROM 层级的测试，或是 APP 间协作需跨进程的测试。
 
@@ -47,9 +47,11 @@ http://blog.csdn.net/wanglha/article/details/42969439
 1. 创建 Java 项目，非 Android 项目
 2. 添加依赖的 jar 包， `android.jar` 和 `uiautomator.jar` ，这两个 jar 包一般位于 `\Android SDK\platforms\android-xx` 目录下，其中 xx 表示 `API　Level`, 建议使用 `API 19` 以上（新增了 `UiSelector.resourceId` 系列方法）
 
-
 ![uiautomator编译与运行测试代码](http://on9czqsf5.bkt.clouddn.com/uiautomator%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81.PNG)
 
+**注意：** 创建 build 文件的命令中的 `-t` 参数，表示编译的 Android 版本在本机（PC）中的序号，如图：
+
+![uiautomator-anroid-list.PNG](http://on9czqsf5.bkt.clouddn.com/uiautomator-anroid-list.PNG?2017-05-16-09-56-46)
 
 ## 3. UiDevice API
 
@@ -63,7 +65,9 @@ http://blog.csdn.net/wanglha/article/details/42969439
 * `UiDevice.getInstance()`
 * `getUiDevice()`
 
-推荐使用 `UiDevice.getInstance()` 进行书写。因为如果使用 `getUiDevice()` 进行调用，在同一个类中不会有问题，但是如果要在其他类中的方法使用了 `getDevcice()` ，调用到本类中不会有语法错误，但是执行的时候会出错。
+**推荐使用 `UiDevice.getInstance()` 进行书写**。
+
+因为如果使用 `getUiDevice()` 进行调用，在同一个类中不会有问题，但是如果要在其他类中的方法使用了 `getDevcice()` ，调用到本类中不会有语法错误，但是执行的时候会出错。
 
 ### 3.1 click
 
@@ -274,8 +278,8 @@ http://blog.csdn.net/wanglha/article/details/42969439
     * 实例 instance 指的是在同一个布局文件同一个类中的编号
 
 2. 索引与实例属性定位对象
-    * UiSelector index(int index)
-    * UiSelector instance(int instance)
+    * `UiSelector index(int index)`
+    * `UiSelector instance(int instance)`
 
 ### 4.7 对象搜索——特殊属性与节点
 
@@ -516,8 +520,8 @@ http://blog.csdn.net/wanglha/article/details/42969439
 ### 10.2 输出信息到报告
 
 1. 输出信息使用的 API 说明
-    * Bundle
-    * getAutomationSupport().sendStatus(int, Bundle)
+    * `Bundle`
+    * `getAutomationSupport().sendStatus(int, Bundle)`
 
 ### 10.3 传入参数控制脚本
 
@@ -644,3 +648,17 @@ public boolean imageSameAs(String targetImagePath,String comPath,double percent)
 * 构建触发器  --- 什么条件下触发构建，如代码变化，指定时间等
 * 构建  --- 执行构建、测试自己想要的步骤
 * 构建后操作  --- 构建后的操作，如发送测试报告等
+
+### 15.3 Jenkins 启动和停止服务
+
+1. 如何启动 `Jenkins`
+    * step1: 进入 `Jenkins` 的 war 包所在的目录
+    * step2: `java -jar jenkins.war` (调用里面的这个war包，如果你的war包名字不是`Jenkins.war`，请用你的 war 包名字，不可生搬硬套)
+
+2. 启动 `Jenkins` 服务
+    * `net start jenkins` (注：如果Jenkins曾经启动过，启动服务不需要进入到某个目录)
+
+3. 停止 `Jenkins` 服务
+    * `net stop jenkins` 
+ 
+**注：**  Jenkins的关闭和启动都可以通过关闭和启动服务来进行
