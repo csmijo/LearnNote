@@ -48,6 +48,9 @@ http://blog.csdn.net/wanglha/article/details/42969439
 2. 添加依赖的 jar 包， `android.jar` 和 `uiautomator.jar` ，这两个 jar 包一般位于 `\Android SDK\platforms\android-xx` 目录下，其中 xx 表示 `API　Level`, 建议使用 `API 19` 以上（新增了 `UiSelector.resourceId` 系列方法）
 
 
+![uiautomator编译与运行测试代码](http://on9czqsf5.bkt.clouddn.com/uiautomator%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81.PNG)
+
+
 ## 3. UiDevice API
 
 参考文献：
