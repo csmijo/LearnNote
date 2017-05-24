@@ -210,7 +210,7 @@ http://blog.csdn.net/wanglha/article/details/42969439
 
 ## 4. UiSelector API
 
-`UiSelector` 就是通过各种属性与节点关系定位组件。如果匹配到多个组件，则返回第一个匹配的组件。
+`UiSelector` 就是通过各种属性与节点关系定位组件。如果匹配到多个组件，则返回第一个匹配的组件。 **可以使用链式调用多个属性来定位组件**。
 
 ### 4.1 UiSelector 使用组件属性介绍
 
@@ -274,8 +274,8 @@ http://blog.csdn.net/wanglha/article/details/42969439
 ### 4.6 对象搜索——索引与实例
 
 1. 索引与实例说明
-    * 索引 index 指的是在同级类中的编号，在兄弟层级的编号
-    * 实例 instance 指的是在同一个布局文件同一个类中的编号
+    * 索引 `index` 指的是在同级类中的编号，在兄弟层级的编号
+    * 实例 `instance` 指的是在同一个布局文件同一个类中的编号
 
 2. 索引与实例属性定位对象
     * `UiSelector index(int index)`
@@ -295,8 +295,31 @@ http://blog.csdn.net/wanglha/article/details/42969439
 
 2. 节点属性定位对象
 
-* `UiSelector childSelector(UiSelector selector)`  从当前类中往下递归找符合条件的子类组件(**一般用来找子类**)
+* `UiSelector childSelector(UiSelector selector)`  从当前类中往下递归找符合条件的子类组件(**一般用来找子类**)，也就是说在当前类的子子孙孙中查找符合条件的组件
 * `UiSelector fromParent(UiSelector selector)`   从父类往下递归找符合条件的组件 (**一般用来找兄弟类**)
+
+示例：
+
+```
+// childSelector() 的使用
+UiScrollable scrollable = new UiScrollable(new UiSelector().scrollable(true));   // 找到当前对象listview
+
+UiScrollable scrollable = new UiScrollable(new UiSelector().scrollable(true)
+.childSelector(new UiSelector().text("Android")));   // 在当前对象的子类中查找 text 为 Android 的对象
+
+scrollable.click();
+```
+
+```
+// fromParent() 的使用
+UiObject Obj = new UiObject(new UiSelector().resourceId("xxx"));  // 找到当前对象
+
+UiObject parentObj = new UiObject(new UiSelector().resourceId("xxx")
+.fromParent(new UiSelector().className("android.widget.LinearLayout").index(1)));  // 从当前对象的父类中查找 className 为 LinearLayout 并且 index 为 1 的对象
+
+parentObj.click();
+```
+
 
 ### 4.8 对象搜索——资源ID
 
