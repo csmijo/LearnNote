@@ -4,7 +4,9 @@
 
 ---
 
-原文：http://gityuan.com/2015/06/28/adb-notes/
+* 原文：http://gityuan.com/2015/06/28/adb-notes/
+* 更详细的一篇博客：  [移动测试基础: Android 常用 adb 命令总结](https://testerhome.com/topics/2565)
+* [移动测试基础:分享一个常用 Adb 命令](https://testerhome.com/topics/6938)
 
 
 
@@ -26,6 +28,7 @@
 14. `adb shell dumpsys battery`  // 获取电池相关信息
 15. `adb shell dumpsys input | grep FocusedApplication`  // 获取当前界面的 package 和 application
 16. `adb shell am start -W component | grep TotalTime`  // 获取 component 启动的时间
+17. `adb shell ime list -s` // 获取系统中所有的输入法
 17. `adb shell settings get secure default_input_method`  // 获取默认输入法  http://www.cnblogs.com/yajing-zh/p/5125317.html
 18. `adb shell settings put secure default_input_method com.sohu.inputmethod.sogou/.SogouIME`  // 设置默认的输入法
  

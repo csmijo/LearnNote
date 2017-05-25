@@ -413,12 +413,14 @@ parentObj.click();
 * `UiObject getChildByText (UiSelector childPattern, String text)`
 * `UiObject getChildByInstance (UiSelector childPattern, int instance)`
 
+在 `UiSelector` 选择器的查找条件中从子 `ui` 元素中搜索，**递归寻找**所有符合条件的子集。再次用`description/text/instance` 条件从前面搜索子集定位到想要的元素
+
 参数：
-* childPattern： UiSelector 从子元素中搜索的条件一
-* text,instance 从搜索出的元素中再次用 text/instance 条件二搜索元素
+* `childPattern`： `UiSelector` 从子元素中搜索的条件一
+* `text,instance` 从搜索出的元素中再次用 `text/instance` 条件二搜索元素
 
 
-先找到父类 UiCollection，然后找出符合条件一 UiSelector 的所有组件的集合，然后再在集合中根据条件二进一步查找需要的目标组件
+先找到父类 `UiCollection`，然后找出符合条件一 `UiSelector` 的所有组件的集合，然后再在集合中根据条件二进一步查找需要的目标组件
 
 ### 6.3 获取某种搜索条件组件的数量
 
