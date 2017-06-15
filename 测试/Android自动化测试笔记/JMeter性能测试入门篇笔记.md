@@ -61,4 +61,39 @@
 **一定要使用好 `包含模式` 和 `排除模式`**
 
 
+## 4. JMeter非图形界面运行
 
+### 4.1 命令行脚本
+
+* `../jmeter -n -t default_online.jmx -l result_1557.jtl`
+
+* 指定远程压力机进行压力测试：
+`../jmeter -n -t default_online.jmx -R 10.173.210.141 -l result_1557.jtl`
+
+* 一边运行一边分析日志
+`../jmeter -n -t baidu_requests_results.jmx -r -l baidu_requests_results.jtl -e -o /home/tester/apache-jmeter-3.0/resultReport`
+
+* 命令行参数：
+ 
+    * -n : 非GUI 模式执行JMeter
+    * -t : 执行测试文件所在的位置及文件名
+    * -r : 远程将所有agent启动用在分布式测试场景下，不是分布式测试只是单点就不需要-r
+    * -l : 指定生成测试结果的保存文件， jtl 文件格式
+    * -e : 测试结束后，生成测试报告
+    * -o : 指定测试报告的存放位置
+    
+        -o 指定的文件及文件夹，必须不存在 ，否则执行会失败，对应上面的命令就是resultReport文件夹必须不存在否则报错
+ 
+### 4.2 jmeter压力机服务启动
+
+1. `nohup ./jmeter-server &`  后台启动 jmeter server 服务
+2. `ps -ef | grep jmeter` 查看 jmeter 服务
+
+
+`jmeter -n -t weather.jmx -l test.jtl -JforcePerfmonFile=true`
+
+`java -jar D:\program\apache-jmeter-3.1\lib\ext\CMDRunner.jar --tool Reporter --input-jtl test.jtl --plugin-type PerfMon --generate-png report-cpu.png`
+
+### 4.3 返回值中文乱码
+
+修改 `jmeter\bin\jmeter.properties` 的 `sampleresult.default.encoding` 属性，默认值为 `ISO-8859-1`，修改为 `utf-8` 即可 
