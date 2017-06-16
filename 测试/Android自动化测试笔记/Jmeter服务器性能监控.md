@@ -83,6 +83,135 @@ jmeterÒ²¿ÉÒÔÏñloadrunnerÒ»Ñù¼à¿Ø·şÎñÆ÷CPU¡¢ÄÚ´æµÈĞÔÄÜ²ÎÊı£¬²»¹ıĞèÒª°²×°Ò»Ğ©²å¼ş£
      JMeterPluginsCMD.bat --generate-csv cpu.csv --input-jtl cpu.jtl --plugin-type PerfMon
     ```
 
+### 3.2.3 ÆäËûµÄ Plugin Type
+
+#### 1. plugin-type ÀàĞÍ
+
+Most of class names are self-explanatory:
+
+* `AggregateReport` = JMeter's native Aggregate Report, can be **saved only as CSV**
+* `SynthesisReport` = mix between JMeter's native Summary Report and Aggregate Report, can be **saved only as CSV**
+* `ThreadsStateOverTime` = Active Threads Over Time
+* `BytesThroughputOverTime`
+* `HitsPerSecond`
+* `LatenciesOverTime`
+* `PerfMon` = PerfMon Metrics Collector
+* `DbMon` = DbMon Metrics Collector, DataBase, get performance counters via sql
+* `JMXMon` = JMXMon Metrics Collector, Java Management Extensions counters
+* `ResponseCodesPerSecond`
+* `ResponseTimesDistribution`
+* `ResponseTimesOverTime`
+* `ResponseTimesPercentiles`
+* `ThroughputVsThreads`
+* `TimesVsThreads` = Response Times VS Threads
+* `TransactionsPerSecond`
+* `PageDataExtractorOverTime`
+* `MergeResults` = MergeResults Command Line Merge Tool to simplify the comparison of two or more load tests, need properties file (like merge-results.properties)
+
+## tmp
+
+standard set
+* AggregateReport
+* SynthesisReport
+* ThreadsStateOverTime
+* PerfMon
+* ResponseTimesOverTime
+* TransactionsPerSecond
+
+----
+
+JMeterPlugins-Standard.jar£¬JMeterPlugins-Extras.jar
+
+* BytesThroughputOverTime
+* HitsPerSecond
+* LatenciesOverTime
+* ResponseCodesPerSecond
+* ResponseTimesDistribution
+* ResponseTimesPercentiles
+* ThroughputVsThreads
+* TimesVsThreads
+ 
+
+
+#### 2. ÒÀÀµµÄÆäËû×é¼ş
+
+ÎªÁËÊ¹ÓÃ JMeterPluginCMD Éú³É½á¹ûÍ¼Æ¬»ò csv ÎÄ¼ş£¬»¹ĞèÒªÒÀÀµÒ»ÏÂµÄ×é¼ş£º
+
+1. `jpgc-filterresults-2.1.zip`  https://jmeter-plugins.org/wiki/FilterResultsTool/
+2. `jpgc-synthesis-2.1.zip`  https://jmeter-plugins.org/?search=jpgc-synthesis  
+3. `GUI½çÃæÖĞµÄ plugins manager ÖĞµÄ jpgc-Standard set`£¬ÆäÖĞ¹²°üº¬ÒÔÏÂµÄÎÄ¼ş£º
+    * jpgc-dummy
+    * jpgc-fifo
+    * jpgc-graphs-basic
+    * jpgc-perfmon
+    * jpgc-tst
+    * jpgc-sense
+    * jpgc-functions
+    * jpgc-casutg
+    * jpgc-ffw
+
+## 4. ĞÔÄÜ¼à¿ØÒÀÀµ×é¼şĞ¡½á
+
+### 4.1 ServerAgent-2.2.1.zip
+
+`ServerAgent-2.2.1`(·şÎñÆ÷Ê¹ÓÃ): https://jmeter-plugins.org/wiki/PerfMonAgent/
+
+### 4.2 jpgc-perfmon-2.1.zip
+
+`jpgc-perfmon-2.1.zip`(±¾»úÊ¹ÓÃ): https://jmeter-plugins.org/wiki/PerfMon/#Concept
+
+### 4.3 jpgc-cmd-2.1.zip
+
+`jpgc-cmd-2.1.zip`: https://jmeter-plugins.org/wiki/JMeterPluginsCMD/ 
+
+### 4.4 ÆäËû
+
+1. `jpgc-filterresults-2.1.zip`  https://jmeter-plugins.org/wiki/FilterResultsTool/
+2. `jpgc-synthesis-2.1.zip`  https://jmeter-plugins.org/?search=jpgc-synthesis  
+3. `GUI½çÃæÖĞµÄ plugins manager ÖĞµÄ jpgc-Standard set`£¬ÆäÖĞ¹²°üº¬ÒÔÏÂµÄÎÄ¼ş£º
+    * jpgc-dummy
+    * jpgc-fifo
+    * jpgc-graphs-basic
+    * jpgc-perfmon
+    * jpgc-tst
+    * jpgc-sense
+    * jpgc-functions
+    * jpgc-casutg
+    * jpgc-ffw
+
+
+### 4.5 jar°üÁĞ±í
+
+#### 4.5.1 lib
+
+* `jmeter-plugins-cmn-jmeter-0.3.jar`
+* `perfmon-2.2.2.jar` ------ jpgc-perfmon-2.1.zip
+* `cmdrunner-2.0.jar` ------ jpgc-cmd-2.1.zip
+
+
+#### 4.5.2 lib\ext
+
+* `jmeter-plugins-manager-0.13.jar`
+* `jmeter-plugins-perfmon-2.1.jar` ------ jpgc-perfmon-2.1.zip
+* `jmeter-plugins-cmd-2.1.jar` ------ jpgc-cmd-2.1.zip
+* `jmeter-plugins-filterresults-2.1.jar` ------ jpgc-filterresults-2.1.zip
+* `jmeter-plugins-synthesis-2.1.jar` ------ jpgc-synthesis-2.1
+* `jmeter-plugins-dummy-0.2.jar`
+* `jmeter-plugins-fifo-0.2.jar`
+* `jmeter-plugins-graphs-basic-2.0.jar`
+* `jmeter-plugins-tst-2.0.jar`
+* `jmeter-plugins-senseuploader-2.4.jar`
+* `jmeter-plugins-functions-2.0.jar`
+* `jmeter-plugins-casutg-2.1.jar`
+* `jmeter-plugins-ffw-2.0.jar`
+
+#### 4.5.3 bin
+
+* `JMeterPluginsCMD.bat` ------ jpgc-cmd-2.1.zip
+* `JMeterPluginsCMD.sh` ------ jpgc-cmd-2.1.zip
+* `FilterResults.bat` ------ jpgc-filterresults-2.1.zip
+* `FilterResults.sh` ------ jpgc-filterresults-2.1.zip
+
 ---
 
 ²Î¿¼ÎÄÏ×£º
