@@ -171,6 +171,13 @@ datetime.date(2017, 5, 19)
 '2017-05-18 11:52:06'
 ```
 
+```
+>>> import time
+>>> time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.time())
+'2017-05-18 11:52:06'
+```
+
+
 #### 方法二： 使用 detetime
 
 ```
@@ -179,7 +186,9 @@ datetime.date(2017, 5, 19)
 time.struct_time(tm_year=2017, tm_mon=5, tm_mday=18, tm_hour=11, tm_min=53, tm_sec=9, tm_wday=3, tm_yday=138, tm_isdst=-1)
 >>> datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 '2017-05-18 11:54:00'
-```
+``` 
+
+
 ### 附：日期和时间的格式化参数
 
 ```
