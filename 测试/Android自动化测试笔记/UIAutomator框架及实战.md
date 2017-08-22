@@ -10,7 +10,7 @@
 
 ### 1.1 适用范围
 
-目前 `UIAutomator` **仅支持API Level 17 及以上**，而且控件解析**仅支持 Android 原生控件，对于 WebView 则无法解析。**
+目前 `UIAutomator` **仅支持API Level 18 及以上**，而且控件解析**仅支持 Android 原生控件，对于 WebView 则无法解析。**
 
 `UIAutomator` 可以在**无源码** 的情况下和竞品进行对比测试，还可以进行 **单元测试、性能测试、压力测试**。`UIAutomator` 可以进行 ROM 层级的测试，或是 APP 间协作需跨进程的测试。
 

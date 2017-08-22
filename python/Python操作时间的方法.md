@@ -173,7 +173,7 @@ datetime.date(2017, 5, 19)
 
 ```
 >>> import time
->>> time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.time())
+>>> time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.time()))
 '2017-05-18 11:52:06'
 ```
 
