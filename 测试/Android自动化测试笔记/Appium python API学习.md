@@ -19,13 +19,13 @@
 1. `find_element_by_android_uiautomator(self,uia_string)`
 2. `find_elements_by_android_uiautomator(self,uia_string)`
 3. `find_element_by_accessibility_id(self,id)`
-4. `find_elements_by_accessibility_id(self,id)`
+4. `find_elements_by_accessibility_id(self,id)`  : Accessibility ID在Android上面就等同于contentDescription
 
 ### 1.2 element 的方法 
 
 　　**注意：** 这几个方法通过 `driver`或`element`都可以调用。`element` 调用时可以用来定位该元素的子元素
 
-1.  `find_element_by_id(self,id_)`
+1.  `find_element_by_id(self,id_)` : 使用的就是 resource_id
 2. `find_elements_by_id(self,id_)`
 3. ~~`find_element_by_name(self,name)`~~   **Appium 1.5版本之后废弃**
 4. ~~`find_elements_by_name(self,name)`~~  **Appium 1.5版本之后废弃**
